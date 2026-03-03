@@ -1,23 +1,22 @@
 import { NextResponse } from "next/server";
 
-export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
+    const body = await request.json();
 
     const token = process.env.TELEGRAM_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (!token || !chatId) {
       return NextResponse.json(
-        { error: "Missing Telegram credentials" },
+        { error: "Telegram env variables missing" },
         { status: 500 }
       );
     }
 
-    const response = await fetch(
+    const telegramResponse = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
       {
         method: "POST",
@@ -35,7 +34,7 @@ Message: ${body.message}`,
       }
     );
 
-    if (!response.ok) {
+    if (!telegramResponse.ok) {
       throw new Error("Telegram API failed");
     }
 
