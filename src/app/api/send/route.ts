@@ -15,11 +15,13 @@ export async function POST(req: Request) {
     }
 
     const message = `
-New Portfolio Message
+🚀 New Portfolio Message
 
-Name: ${body.name}
-Email: ${body.email}
-Message: ${body.message}
+👤 Name: ${body.name}
+📧 Email: ${body.email}
+
+💬 Message:
+${body.message}
 `;
 
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
@@ -38,6 +40,7 @@ Message: ${body.message}
     return NextResponse.json({ success: true });
 
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to send message" },
       { status: 500 }
