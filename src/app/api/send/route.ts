@@ -4,33 +4,43 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+    const token = process.env.TELEGRAM_TOKEN;
+    const chatId = process.env.TELEGRAM_CHAT_ID;
 
-    if (!TELEGRAM_TOKEN || !TELEGRAM_CHAT_ID) {
+    if (!token || !chatId) {
       return NextResponse.json(
-        { error: "Telegram env variables missing" },
+        { error: "Missing environment variables" },
         { status: 500 }
       );
     }
 
-    await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: `🚀 New Portfolio Message\n\nFrom: ${body.username}\nMessage: ${body.content}`,
-        }),
-      }
-    );
+    const message = `
+New Portfolio Message
+
+Name: ${body.name}
+Email: ${body.email}
+Message: ${body.message}
+`;
+
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+      }),
+    });
 
     return NextResponse.json({ success: true });
+
   } catch (error) {
-    console.error("Telegram API Error:", error);
-    return NextResponse.json({ success: false }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to send message" },
+      { status: 500 }
+    );
   }
 }
