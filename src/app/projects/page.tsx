@@ -182,37 +182,37 @@ const projects: Project[] = [
       );
     },
   },
-{
-  id: "sos-hackathon",
-  category: "Security",
-  title: "SOS Hackathon",
-  src: "/assets/projects-screenshots/Sos/1.png",
-  screenshots: ["1.png", "2.png", "3.png", "4.png", "5.png"],
-  live: "#",
-  skills: {
-    frontend: [PROJECT_SKILLS.react, PROJECT_SKILLS.ts],
-    backend: [PROJECT_SKILLS.node, PROJECT_SKILLS.express, PROJECT_SKILLS.mongo],
+  {
+    id: "Sos-Hackthon",
+    category: "Security",
+    title: "Hackthon project",
+    src: `${BASE_PATH}/bus/1.png`,
+    screenshots: ["1.png", "2.png", "3.png", "4.png", "5.png"],
+    live: "in progress",
+    skills: {
+      frontend: [PROJECT_SKILLS.react, PROJECT_SKILLS.ts],
+      backend: [PROJECT_SKILLS.node, PROJECT_SKILLS.express, PROJECT_SKILLS.mongo],
+    },
+    get content() {
+      return (
+        <div>
+          <TypographyP className="font-mono">
+            for the team of jcts a hackthon ptoject built using MERN stack with real-time communication using socket.io. It is a security project which aims to provide a platform for users to report and track security incidents in their area, fostering community safety and awareness. 
+          </TypographyP>
+          <ProjectsLinks live={this.live} />
+          <SlideShow
+            images={[
+              `${BASE_PATH}/Sos/1.png`,
+              `${BASE_PATH}/Sos/2.png`,
+              `${BASE_PATH}/Sos/3.png`,
+              `${BASE_PATH}/Sos/4.png`,
+              `${BASE_PATH}/Sos/5.png`,
+            ]}
+          />
+        </div>
+      );
+    },
   },
-  get content() {
-    return (
-      <div>
-        <TypographyP className="font-mono">
-          Hackathon project built using MERN stack with real-time
-          communication using Socket.io.
-        </TypographyP>
-        <SlideShow
-          images={[
-            "/assets/projects-screenshots/Sos/1.png",
-            "/assets/projects-screenshots/Sos/2.png",
-            "/assets/projects-screenshots/Sos/3.png",
-            "/assets/projects-screenshots/Sos/4.png",
-            "/assets/projects-screenshots/Sos/5.png",
-          ]}
-        />
-      </div>
-    );
-  },
-},
 ];
 
 export default projects;

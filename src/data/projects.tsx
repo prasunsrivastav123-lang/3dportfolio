@@ -186,7 +186,7 @@ const projects: Project[] = [
     id: "SOS Hackthon",
     category: "Security",
     title: "Hackthon project",
-    src: `${BASE_PATH}/Sos/1.png`,
+    src: `${BASE_PATH}/bus/1.png`,
     screenshots: ["1.png", "2.png", "3.png", "4.png", "5.png"],
     live: "in progress",
     skills: {
