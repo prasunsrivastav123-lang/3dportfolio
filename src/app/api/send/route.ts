@@ -1,19 +1,36 @@
-export const runtime = "nodejs";
+import { NextResponse } from "next/server";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const body = await request.json();
+    const body = await req.json();
 
-    console.log("Received:", body);
+    const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+    const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-    return new Response(
-      JSON.stringify({ success: true }),
-      { status: 200 }
+    if (!TELEGRAM_TOKEN || !TELEGRAM_CHAT_ID) {
+      return NextResponse.json(
+        { error: "Telegram env variables missing" },
+        { status: 500 }
+      );
+    }
+
+    await fetch(
+      `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID,
+          text: `🚀 New Portfolio Message\n\nFrom: ${body.username}\nMessage: ${body.content}`,
+        }),
+      }
     );
+
+    return NextResponse.json({ success: true });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: "Something went wrong" }),
-      { status: 500 }
-    );
+    console.error("Telegram API Error:", error);
+    return NextResponse.json({ success: false }, { status: 500 });
   }
 }
