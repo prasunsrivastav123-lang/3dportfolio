@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -18,16 +20,16 @@ export async function POST(req: Request) {
     const message = `
 🚀 New Portfolio Message
 
-👤 Name: ${body.name}
-📧 Email: ${body.email}
+👤 Name: ${body?.name}
+📧 Email: ${body?.email}
 
 💬 Message:
-${body.message}
+${body?.message}
 `;
 
     const url = `https://api.telegram.org/bot${token}/sendMessage`;
 
-    await fetch(url, {
+    const telegramResponse = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,10 +40,15 @@ ${body.message}
       }),
     });
 
+    if (!telegramResponse.ok) {
+      throw new Error("Telegram API failed");
+    }
+
     return NextResponse.json({ success: true });
 
   } catch (error) {
-    console.error(error);
+    console.error("Telegram Error:", error);
+
     return NextResponse.json(
       { error: "Failed to send message" },
       { status: 500 }

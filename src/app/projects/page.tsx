@@ -1,3 +1,4 @@
+"use client";
 import AceTernityLogo from "@/components/logos/aceternity";
 import SlideShow from "@/components/slide-show";
 import { Button } from "@/components/ui/button";
@@ -215,4 +216,15 @@ const projects: Project[] = [
   },
 ];
 
-export default projects;
+export default function ProjectsPage() {
+  return (
+    <div className="space-y-16">
+      {projects.map((project) => (
+        <div key={project.id}>
+          <TypographyH3>{project.title}</TypographyH3>
+          {project.content}
+        </div>
+      ))}
+    </div>
+  );
+}
